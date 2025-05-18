@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Submit Complaint</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    input[type="text"],
+    input[type="email"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    input[type="file"] {
+      margin-bottom: 20px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #0066cc;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #004d99;
+    }
+    .success {
+      background-color: #d4edda;
+      padding: 12px;
+      border-radius: 6px;
+      color: #155724;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Submit a Complaint</h2>
+
+  <form action="/submit" method="POST" enctype="multipart/form-data">
+    <label for="student_name">Student Name</label>
+    <input type="text" id="student_name" name="student_name" required>
+
+    <label for="email">Student Email</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="title">Complaint Title</label>
+    <input type="text" id="title" name="title" required>
+
+    <label for="description">Description</label>
+    <textarea id="description" name="description" rows="5" required></textarea>
+
+    <label for="type">Complaint Type</label>
+    <select id="type" name="type" required>
+      <option value="">-- Select Type --</option>
+      <option value="Hostel">Hostel</option>
+      <option value="Academics">Academics</option>
+      <option value="Campus">Campus</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label for="file">Upload File (optional)</label>
+    <input type="file" id="file" name="file">
+
+    <button type="submit">Submit Complaint</button>
+  </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Complaint Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f6f8;
+      color: #333;
+    }
+
+    .navbar {
+      background-color: #004080;
+      padding: 1rem 2rem;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .dashboard-container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .complaint-card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .complaint-header {
+      background-color: #0066cc;
+      color: white;
+      padding: 1rem;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .complaint-body {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1rem;
+      align-items: flex-start;
+    }
+
+    .complaint-details {
+      flex: 1;
+    }
+
+    .complaint-details p {
+      margin: 0.3rem 0;
+    }
+
+    .complaint-image img {
+      width: 180px;
+      height: auto;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .status-badge {
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .Submitted { background-color: #f39c12; }
+    .InProgress { background-color: #3498db; }
+    .Resolved { background-color: #2ecc71; }
+
+    .footer {
+      background-color: #004080;
+      text-align: center;
+      color: white;
+      padding: 1rem;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <h1>Student Dashboard</h1>
+    <a href="/logout">Logout</a>
+  </nav>
+
+  <div class="dashboard-container" id="complaint-dashboard">
+    <!-- Complaints will be dynamically injected here -->
+  </div>
+
+  <footer class="footer">
+    &copy; 2025 Smart Complaint Portal | All Rights Reserved
+  </footer>
+
+  <!-- Complaint Submission Modal (Optional for submitting complaints) -->
+  <div id="submit-modal" style="display: none;">
+    <!-- Add form for submitting complaints here -->
+  </div>
+
+  <script>
+    // Function to load complaints via AJAX
+    function loadComplaints() {
+      fetch('/get_complaints', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const dashboardContainer = document.getElementById('complaint-dashboard');
+        dashboardContainer.innerHTML = ""; // Clear existing complaints
+
+        data.complaints.forEach(complaint => {
+          const card = document.createElement('div');
+          card.classList.add('complaint-card');
+          card.innerHTML = `
+            <div class="complaint-header">${complaint.title}</div>
+            <div class="complaint-body">
+              <div class="complaint-details">
+                <p><strong>Description:</strong> ${complaint.description}</p>
+                <p><strong>Type:</strong> ${complaint.type}</p>
+                <p><strong>Status:</strong> <span class="status-badge ${complaint.status}">${complaint.status}</span></p>
+                <p><strong>Date:</strong> ${complaint.submitted_at}</p>
+              </div>
+              <div class="complaint-image">
+                ${complaint.file_url ? `<img src="${complaint.file_url}" alt="Complaint Image">` : `<p>No Image</p>`}
+              </div>
+            </div>
+          `;
+          dashboardContainer.appendChild(card);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching complaints:', error);
+      });
+    }
+
+    // Load complaints when page loads
+    window.onload = loadComplaints;
+
+    // Optional: Set up an interval to reload complaints every 10 seconds
+    setInterval(loadComplaints, 10000); // 10 seconds refresh
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+Flask
+python-dotenv
+pyodbc
+azure-storage-blob
+requests
+opencensus-ext-azure
+gunicorn
+
+
